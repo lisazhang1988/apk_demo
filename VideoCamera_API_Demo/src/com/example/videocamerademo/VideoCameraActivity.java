@@ -1,7 +1,10 @@
 package com.example.videocamerademo;
 
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -14,6 +17,8 @@ import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.hardware.Camera.Size;
+import android.media.CamcorderProfile;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -38,6 +43,8 @@ public class VideoCameraActivity extends Activity implements SurfaceHolder.Callb
 	private long mStorageSpaceBytes = Storage.LOW_STORAGE_THRESHOLD_BYTES;
 	private static final String TEST_ITEM = "test_item";
 	private MediaSaveService mMediaSaveService;
+	private MediaRecorder mMediaRecorder;
+	private CamcorderProfile mProfile;
 	
 	public void onCreate(Bundle b){
 		super.onCreate(b);
@@ -213,11 +220,13 @@ public class VideoCameraActivity extends Activity implements SurfaceHolder.Callb
 				resetStates();
 				videoDuring = true;
 				setButtonState();
+				takeVideo();
 				break;
 			case R.id.camera_video_end_btn:
 				videoDuring = false;
 				videoEnd = true;
 				setButtonState();
+				stopVideo();
 				break;
 			case R.id.camera_capture_btn:
 				resetStates();
@@ -285,6 +294,7 @@ public class VideoCameraActivity extends Activity implements SurfaceHolder.Callb
 					data, title, System.currentTimeMillis(), null, width, height,
 					orientation, exif, null, m_contentResolver);
 			Toast.makeText(VideoCameraActivity.this, "保存成功!", Toast.LENGTH_SHORT).show();
+//			mCameraDevice.startPreview();//后面如果不用返回按键时需要拍照后重新进入预览
 			
 		}
 	};		
@@ -306,5 +316,49 @@ public class VideoCameraActivity extends Activity implements SurfaceHolder.Callb
 			setTestResult (); 
 			super.finish();
 		}
+	
+	private void takeVideo(){
+		Toast.makeText(this, "录像开始", Toast.LENGTH_SHORT).show();
+		mMediaRecorder = new MediaRecorder();
+		mProfile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH); 
+		// Unlock the camera object before passing it to media recorder.
+		mCameraDevice.unlock();
+		mMediaRecorder.setCamera(mCameraDevice);
+		mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+		mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+		mMediaRecorder.setProfile(mProfile);
+//		mMediaRecorder.setMaxDuration(10000);//ms为单位
+		long dateTaken = System.currentTimeMillis();
+		Date date = new Date(dateTaken);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yy-mm-dd");
+		String title = dateFormat.format(date);
+		String filename = "wb_zgj"+title + ".3gp"; // Used when emailing.
+		String cameraDirPath = "/sdcard/DCIM/Camera";
+		String filePath = cameraDirPath + "/" + filename;
+		File cameraDir = new File(cameraDirPath);
+		cameraDir.mkdirs();
+		mMediaRecorder.setOutputFile(filePath);
+		try {
+			mMediaRecorder.prepare();
+			// TODO Auto-generated catch block
+			mMediaRecorder.start(); // Recording is now started
+		} catch (RuntimeException e) {
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	private void stopVideo(){
+		mMediaRecorder.stop();
+		mMediaRecorder.reset();
+		mMediaRecorder.release();
+		mMediaRecorder = null;
+		if(mCameraDevice != null)
+			mCameraDevice.lock();
+		Toast.makeText(this, "录像结束", Toast.LENGTH_SHORT).show();
+	}
 }
 
