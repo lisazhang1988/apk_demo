@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">VideoCameraDemo</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string name="SERVICEMENU_CAMERA_BTN_VIDEO">录像开始</string>
+    <string name="SERVICEMENU_CAMERA_BTN_VIDEO_END">录像结束并保存</string>
+    <string name="SERVICEMENU_CAMERA_BTN_CAPTURE">拍照并保存</string>
+    <string name="SERVICEMENU_CAMERA_BTN_SAVE">保存</string>
+    <string name="SERVICEMENU_CAMERA_BTN_DELETE">返回</string>
+    <string name="SERVICEMENU_CAMERA_BTN_TURN_OFF">关闭</string>
+    <string name="SERVICEMENU_VIDEO_CAMERA_TXT">摄像</string>
+
+</resources>

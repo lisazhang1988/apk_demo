@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="wrap_content"
+	android:layout_height="fill_parent" 
+	android:background="#FFC0CB"
+	>
+	<SurfaceView android:id="@+id/cameraView"
+		android:layout_width="wrap_content" android:layout_height="620dip"
+		android:layout_gravity="center_vertical"
+		>
+	</SurfaceView>
+
+	<LinearLayout 
+	    android:layout_gravity="center_vertical|center_horizontal"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		>
+		<Button android:id="@+id/camera_video_start_btn" android:layout_width="140dp"
+		android:textSize="16dp"
+			android:layout_height="wrap_content" android:text="@string/SERVICEMENU_CAMERA_BTN_VIDEO" />
+		<Button android:id="@+id/camera_capture_btn" android:layout_width="140dp"
+		android:textSize="16dp"
+			android:layout_height="wrap_content" android:text="@string/SERVICEMENU_CAMERA_BTN_CAPTURE" />
+		<Button android:id="@+id/camera_video_end_btn" android:layout_width="140dp"
+		android:textSize="16dp"
+			android:layout_height="wrap_content" android:text="@string/SERVICEMENU_CAMERA_BTN_VIDEO_END" />
+		<Button android:id="@+id/camera_delete_btn" android:layout_width="140dp"
+		android:textSize="16dp"
+			android:layout_height="wrap_content" android:text="@string/SERVICEMENU_CAMERA_BTN_DELETE" />
+		<Button android:id="@+id/camera_turn_off_btn" android:layout_width="140dp"
+		android:textSize="16dp"
+			android:layout_height="wrap_content" android:text="@string/SERVICEMENU_CAMERA_BTN_TURN_OFF" />
+		
+
+	</LinearLayout>
+
+</LinearLayout>    
